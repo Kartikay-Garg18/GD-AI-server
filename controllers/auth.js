@@ -17,10 +17,10 @@ export const signup = async (req, res) => {
         const newUser = new User({ name, email, password: hashedPw });
         await newUser.save();
 
-        res.status(201).json({ message: 'Registered successfully' });
+        return res.status(201).json({ message: 'Registered successfully' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Server error. try again later' });
+        return res.status(500).json({ message: 'Signup error' });
     }
 };
 
@@ -36,10 +36,10 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: 'user' },process.env.JWT_SECRET,{ expiresIn: process.env.JWT_EXPIRY });
 
-        res.json({ token });
+        return res.status(200).json({user: {id: user._id, name: user.name, email: user.email}, token });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        return res.status(500).json({ message: 'Login error' });
     }
 };
 
