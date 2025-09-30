@@ -4,10 +4,13 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import transcribeRoute from './routes/transcribe.js';  
 import authRoute from './routes/auth.js';
+import connectDB from './databases/db.js';
 
 dotenv.config();
 
 const app = express();
+
+connectDB();
 
 app.use(express.json());
 app.use(cors());

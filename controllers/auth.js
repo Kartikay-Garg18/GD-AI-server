@@ -1,19 +1,20 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-// import model
+import User from '../models/userSchema.js';
 
 // signup 
 export const signup = async (req, res) => {
-    const { email, password } = req.body;
-
+    const { name, email, password } = req.body;
+    // console.log(req.body);
+    
     try {
-        // const userExist = await User.findOne({ email });
+        const userExist = await User.findOne({ email });
         if (userExist) {
             return res.status(400).json({ message: 'This email is already associated with an account' });
         }
 
         const hashedPw = await bcrypt.hash(password, 12);
-        const newUser = new User({ email, password: hashedPw });
+        const newUser = new User({ name, email, password: hashedPw });
         await newUser.save();
 
         res.status(201).json({ message: 'Registered successfully' });
@@ -28,7 +29,7 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // const user = await User.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
