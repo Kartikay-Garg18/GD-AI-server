@@ -1,12 +1,13 @@
 // 🔹 Email Reminder Logic (added without touching your code above)
 import nodemailer from "nodemailer";
 import cron from "node-cron";
+import Room from "../models/roomSchema.js";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
+    user: 'Sage.ai.ac@gmail.com',
+    pass:'kzgj zzab eaiw sczc',
   },
 });
 
