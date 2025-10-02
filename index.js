@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import transcribeRoute from './routes/transcribe.js';  
 import authRoute from './routes/auth.js';
+import meetingRoutes from './routes/meeting.js';
 import connectDB from './databases/db.js';
 
 dotenv.config();
@@ -20,9 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 // Attach routes
 app.use('/transcribe', transcribeRoute);
 app.use('/auth', authRoute);
-
+app.use('/meetings', meetingRoutes);
 // const PORT = process.env.PORT || 3000;
 const PORT = 4000;
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

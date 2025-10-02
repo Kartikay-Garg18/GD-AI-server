@@ -24,7 +24,12 @@ const roomSchema = new mongoose.Schema({
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    maxParticipants: {
+        type: Number,
+        default: 10, 
+        min: 1
+    }
 }, { timestamps: true });
 
 const Room = mongoose.model("Room", roomSchema);
