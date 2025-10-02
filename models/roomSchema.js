@@ -21,6 +21,10 @@ const roomSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    isEnd : {
+        type: Boolean,
+        required: true
+    },
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
