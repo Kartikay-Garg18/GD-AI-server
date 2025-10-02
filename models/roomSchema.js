@@ -29,7 +29,12 @@ const roomSchema = new mongoose.Schema({
         type: Number,
         default: 10, 
         min: 1
+    },
+    scheduledAt: {
+        type: Date,
+        required: true, 
     }
+
 }, { timestamps: true });
 
 const Room = mongoose.model("Room", roomSchema);
