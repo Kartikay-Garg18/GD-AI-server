@@ -36,7 +36,13 @@ const roomSchema = new mongoose.Schema({
     },
     scheduledAt: {
         type: Date,
-        required: true, 
+        required: true,
+        validate: {
+            validator: function (value) {
+                return value > new Date(); 
+            },
+            message: 'Scheduled time must be in the future.'
+        }
     }
 
 }, { timestamps: true });
