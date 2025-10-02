@@ -1,33 +1,16 @@
 import Room from "../models/roomSchema.js";
 import User from "../models/userSchema.js";
-
-// Generate unique 6-character room code
-const generateRoomCode = async () => {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let code;
-  let exists = true;
-
-  while (exists) {
-    code = "";
-    for (let i = 0; i < 6; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    const room = await Room.findOne({ roomCode: code });
-    if (!room) exists = false;
-  }
-
-  return code;
-};
+import { generateRoomCode } from "../utils/generateRoomCode.js";
 
 // Create Room
 export const createMeeting = async (req, res) => {
   if (!req.isAuth) return res.status(401).json({ message: "Unauthorized" });
 
   try {
-    const { roomName, maxParticipants } = req.body;
+    const { roomName, maxParticipants, scheduledAt, isEnd } = req.body;
 
     if (!roomName) return res.status(400).json({ error: "roomName is required" });
+    if (!scheduledAt) return res.status(400).json({ error: "scheduledAt is required" });
 
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -39,7 +22,9 @@ export const createMeeting = async (req, res) => {
       roomName,
       createdBy: user._id,
       participants: [user._id],
-      maxParticipants: maxParticipants || 10
+      maxParticipants: maxParticipants || 10,
+      scheduledAt: new Date(scheduledAt),
+      isEnd: isEnd || false                
     });
 
     await room.save();
