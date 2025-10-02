@@ -1,6 +1,7 @@
 import Room from "../models/roomSchema.js";
 import User from "../models/userSchema.js";
 import { generateRoomCode } from "../utils/generateRoomCode.js";
+import { scheduleRemindersForMeeting } from "./remiender.js";
 
 // Create Room
 export const createMeeting = async (req, res) => {
@@ -30,6 +31,14 @@ export const createMeeting = async (req, res) => {
     await room.save();
 
     res.status(201).json({ message: "Room created successfully", room });
+
+    try {
+      await scheduleRemindersForMeeting(room._id);
+    } catch (reminderError) {
+      console.error("Failed to schedule reminders:", reminderError);
+    }
+
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error while creating room" });

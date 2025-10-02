@@ -1,4 +1,4 @@
-import Room from "../models/roomSchema";
+import Room from "../models/roomSchema.js";
 
 export const generateRoomCode = async () => {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
