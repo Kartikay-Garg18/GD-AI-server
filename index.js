@@ -5,6 +5,7 @@ import cors from 'cors';
 import transcribeRoute from './routes/transcribe.js';  
 import authRoute from './routes/auth.js';
 import meetingRoutes from './routes/meeting.js';
+import trendingRoutes from "./routes/langchain.js";
 import connectDB from './databases/db.js';
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/transcribe', transcribeRoute);
 app.use('/auth', authRoute);
 app.use('/meetings', meetingRoutes);
+app.use("/langchain", trendingRoutes);
 // const PORT = process.env.PORT || 3000;
 const PORT = 4000;
 app.listen(PORT, () => {
