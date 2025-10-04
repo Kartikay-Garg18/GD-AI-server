@@ -29,6 +29,7 @@ export const createMeeting = async (req, res) => {
     });
 
     await room.save();
+    await room.populate("createdBy", "name");
 
     res.status(201).json({ message: "Room created successfully", room });
 
@@ -68,10 +69,15 @@ export const listMeetings = async (req, res) => {
   if (!req.isAuth) return res.status(401).json({ message: "Unauthorized" });
 
   try {
-    const rooms = await Room.find()
+    const rooms = await Room.find({
+      $or: [
+        { createdBy: req.userId },
+        { participants: req.userId }
+      ],
+    })
       .populate("createdBy", "name email")
       .populate("participants", "name email")
-      .sort({ createdAt: -1 });
+      .sort({ scheduledAt: 1 });
 
     res.json(rooms);
   } catch (err) {

@@ -14,7 +14,6 @@ const roomSchema = new mongoose.Schema({
         required: true,
         trim: true,
         minlength: 1,
-        maxlength: 100
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
@@ -39,7 +38,7 @@ const roomSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function (value) {
-                return value > new Date(); 
+                return value >= new Date(); 
             },
             message: 'Scheduled time must be in the future.'
         }
